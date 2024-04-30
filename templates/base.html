@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block meta %}
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="Gosip Bookstore is a bookshop selling books of different genre to book lovers in Berlin City, Germany.">
+    <meta
+      name="keyword"
+      content="Bookstore, Bookshop, Book lovers, Book freaks, Book, Berlin, Germany, City, sell books, Genre, Fantacy, Education, Kids, Games, Entertainment, Chess, selling, sell, Gosip">
+    {% endblock %}
+
+    {% block extra_meta %}
+    {% endblock %}
+
+    {% block icon %}
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/dzdyzl4r5/image/upload/v1672956309/favicon-32x32_rjcd60.png">
+    {% endblock %}
+
+    {% block corecss %}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/books.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+    <!-- Mailchimp -->
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-071822.css" rel="stylesheet" type="text/css">
+    {% endblock %}
+
+    {% block extra_css %}
+
+    {% endblock %}
+
+    {% block corejs %}
+    <!--Fontawesome-->
+    <script src="https://kit.fontawesome.com/b30d404726.js" crossorigin="anonymous"></script>
+    <!--jquery-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js"
+    integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--Bootstrap-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!--stripe-->
+    <script src="https://js.stripe.com/v3/"></script>
+    {% endblock %}
+
+    {% block extra_js %}
+    {% endblock %}
+
+  <title> |{% block extra_title %} Bookshop for Book lovers {% endblock %}</title>
+</head>
+  <body>
+    <header class="fixed-top page-header">
+      <nav class="navbar navbar-light page-nav">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'home' %}"><h1 class="logo"><strong>G<span class="brand-color">o</span></strong>sip Bookstore</h1></a>
+          <span class=" nav-item text-center mt-1 d-flex d-xl-none">
+            <a href="#" class="nav-link d-grid gap-2" data-bs-toggle="modal" data-bs-target="#searchModal">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <small>Search</small>
+            </a>
+          </span>
+          {% include 'includes/top-nav.html' %}
+          {% include 'includes/offcanvas-nav.html' %}
+
+        </div>
+      </nav>
+    </header>
+  
+    <!--messages-->
+    {% for message in messages %}
+    {% with message.level as level %}
+      {% if level == 25 %}
+      <div class="message-container">
+        {% include 'includes/toasts/toast_success.html' %}
+      </div>
+      {% else %}
+      <div class="container-fluid messages">
+        <div class="row">
+          <div class="col-12">
+            <div class="alert {{message.tags}} alert-dismissible fade show" id="msg" role="alert">
+              {{ message | safe }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endwith %}
+    {% endfor %}
+    <!--messages./-->
+
+    {% block page_header %}
+    {% endblock %}
+    
+
+    {% block content %}
+    {%endblock %}
+
+    {% include 'includes/mobile-bottom-nav.html' %}
+
+    {% include 'includes/footer.html' %}
+  
+    {% block postloadjs %}
+    <script>
+      // Timeout for success toast
+      setTimeout(() => {
+        const msgToast = new bootstrap.Toast('.toast');
+        msgToast.show();
+      }, 500);
+
+      // Timeout for custom message alerts
+      setTimeout(() => {
+        const messages = document.querySelector('.messages')
+        let alert = new bootstrap.Alert(messages);
+        alert.close();
+      }, 2800);
+      
+      // Like book on click and reload page
+      $('.like-book').click(function(e) {
+          var csrfToken = "{{ csrf_token }}";
+          var bookId = $(this).attr('id').split('like_')[1];
+          var url = `/wishlist/like/${bookId}/`;
+          var data = {'csrfmiddlewaretoken': csrfToken};
+
+          $.post(url, data)
+          .done(() => {
+              location.reload();
+          });
+      }) 
+    </script>
+    <!--Mailchimps-->
+    <script src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+    <script>(
+      function($) {window.fnames = new Array();
+        window.ftypes = new Array(); 
+        fnames[0]='EMAIL';ftypes[0]='email';
+        fnames[1]='FNAME';ftypes[1]='text';
+        fnames[2]='LNAME';ftypes[2]='text';
+        fnames[3]='ADDRESS';ftypes[3]='address';
+        fnames[4]='PHONE';ftypes[4]='phone';
+        fnames[5]='BIRTHDAY';ftypes[5]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+    {% endblock %}
+  </body>
+</html>

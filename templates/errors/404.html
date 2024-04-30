@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="parent-404 page">
+    <div class="container child-404">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="head-text-404">Oops!</h1>
+                <h2 class="fw-bold message-404">404 page not found</h2>
+                <p>The Page you are looking for is not available.</p>
+                <a class="btn btn-danger" href="{% url 'books:books' %}">Return to Bookstore</i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

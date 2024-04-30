@@ -1,0 +1,23 @@
+
+<div class="navbar navbar-expand d-flex d-md-none fixed-bottom mobile-bottom-link">
+    <ul class="navbar-nav flex-grow-1 justify-content-around">
+      <li class="nav-item">
+        <a class="nav-link ps-4" href="{% url 'home' %}"><i class="fa-solid fa-house"></i></a>
+      </li>
+      <li class="nav-item">
+        {% if user.is_authenticated %}
+        <a class="nav-link ps-4" href="{% url 'user_profile'%}"><i class="fa-solid fa-user"></i></a>
+        {% else %}
+        <a class="nav-link ps-4" href="{% url 'account_login' %}"><i class="fa-solid fa-user"></i></a>
+        {% endif %}
+      </li>
+      <li class="nav-item mobile-wish-box">
+        <small class="text-danger"><strong class="mobile-wish-items">{{ like_count }}</strong></small>
+        <a class="nav-link ps-4" href="{% url 'wishlist' %}"><i class="fa-regular fa-heart"></i></a>
+      </li>
+      <li class="nav-item mobile-cart-box">
+        <small class="text-danger"><strong class="mobile-cart-items">{{book_count}}</strong></small>
+        <a class="nav-link ps-4" href="{% url 'shopping_cart'%}"><i class="fa-solid fa-basket-shopping"></i></a>
+      </li>
+    </ul>
+</div>

@@ -1,0 +1,129 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container page-margin">
+    <div class="row row-cols-2">
+        <!--Book Image-->
+        <div class="col-12 col-sm-6 col-md-5 col-lg-4 book-img">
+            <div class="container-sm book-card py-4 px-3">
+                {% if book.image %}
+                    <img src="{{ book.image.url }}" alt="book image" width="200" height="280">
+                {% else %}
+                    <a href="#"><img class="img-fluid" src="{{ MEDIA_URL }}no-image-man.jpg" 
+                        width="200" height="280" alt="no image available">
+                    </a>
+                {% endif %}
+                <form action="{% url 'wish' slug=book.slug %}" method="POST">
+                    {% csrf_token %}
+                    <button class="like-book btn ms-5 submit detail-book-like" id="like_{{ book.slug }}"><i class="fa-regular fa-heart"></i></button>
+                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                </form>
+            </div>
+        </div>
+        <!--Book details-->
+        <div class="col-12 col-sm-6 col-md-7 col-lg-8 book-details">
+            <div class="col-12 d-block d-sm-none my-4">
+            </div>
+            <div class="cotainer-sm">
+                <h3>{{ book.title }}</h3>
+                <a class="text-decoration-none" href="{% url 'books:book-details' slug=book.slug %}#about-author">
+                    <small class="author-link">{{ book.author}} | {{ book.publication_year }}</small>
+                </a>
+                <p> 
+                    <strong>{{ book.price }} €</strong>
+                </p>
+                {% if book.genre %}
+                <div class="d-flex justify-content-start">
+                  <a class="text-decoration-none" href="#">
+                    <small class="mute genre-link"><i class="fa-solid fa-tag"></i> {{ book.genre }}</small>
+                  </a>
+                </div>
+                {% endif %}
+                {% if book.rating %}
+                <small class="mute"><i class="fa-solid fa-star"></i> {{ book.rating }} / 5 </small>
+                {% else %}
+                <small> No Rating</small>
+                {% endif %}
+                <div class="summary my-3">
+                    <h4>Description</h4>
+                    {{ book.description | safe }}
+                </div>
+                <!--update or delete book as a superuser-->
+                {% if request.user.is_superuser%}
+                    <div class="d-flex justify-content-end">
+                        <a href="{% url 'books:edit_book' slug=book.slug %}" class="text-primary text-decoration-none">edit</a><span class="text-muted">|</span>
+                        <a class="text-danger text-decoration-none" href="{% url 'books:delete_book' slug=book.slug %}" role="button">delete</a>
+                    </div>
+                {% endif %}
+                <!-- Add book to cart form-->
+                <form action="{% url 'in_cart' slug=book.slug %}" method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid my-4">
+                        <label for="id_qty_{{ book.id }}" class="ms-5 fw-semibold">Quantity</label>
+                        <div class="qty-group d-flex">
+                            <div class="input-group-prepend">
+                                <button class="decrement-qty btn"
+                                data-book_id="{{ book.id }}" id="decrement-qty_{{ book.id }}">
+                                 <span class="icon">
+                                    <i class="fa-solid fa-minus"></i>
+                                 </span>
+                                </button>
+                            </div>
+                            <input type="number" class="form-control qty_select text-center"
+                                name="quantity" value="1" min="1" max="50"
+                                data-book_id="{{ book.id }}" id="id_qty_{{ book.id }}">
+                                <div class="input-group-postpend">
+                                    <button class="increment-qty btn"
+                                    data-book_id="{{ book.id }}" id="increment-qty_{{ book.id }}">
+                                     <span class="icon">
+                                        <i class="fa-solid fa-plus"></i>
+                                     </span>
+                                    </button>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="row shop gap-3 d-flex justify-content-center text-center">
+                        <div class="col-12 col-lg-6">
+                            <button class="btn" type="submit">Add to Cart</button>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <a href="{% url 'books:books' %}" class="text-decoration-none btn"><i class="fa-solid fa-arrow-left"></i> Bookstore</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="book-hr my-4">
+<div class="container">
+    <h4 class="mb-3">Book Information</h4>
+    <div>
+        <p><strong>Published :</strong> {{book.publication_year}}</p>
+        <p><strong>Language :</strong> {{book.language}}</p>
+        <p><strong>Pages :</strong> {{book.pages}} pages</p>
+        <p><strong>ISBN :</strong> {{book.isbn}}</p>
+        <p><strong>Dimension :</strong> {{book.dimension}}</p>
+    </div>
+</div>
+<hr class="book-hr my-4">
+<div class="container">
+    <div class=" d-flex justify-content-start mb-3">
+        <h4 id="about-author">About the Author</h4>
+    </div>
+    <h5>{{book.author}}</h5>
+    {{book.author.about | safe}}
+        <!--update or delete author as a superuser-->
+    {% if request.user.is_superuser%}
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'books:edit_author' book.author.id %}" class="text-primary text-decoration-none">edit</a><span class="text-muted">|</span>
+        <a class="text-danger text-decoration-none" href="{% url 'books:delete_author' book.author.id %}" role="button">delete</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+{% block postloadjs %}
+    {{block.super}}
+    {% include 'books/includes/quantity_select_script.html' %}
+{% endblock %}  

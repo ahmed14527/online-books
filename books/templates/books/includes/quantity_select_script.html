@@ -1,0 +1,42 @@
+<script>
+    // Disable Quantity button within range
+    function handleEnableDisable(bookId){
+        var currentValue = parseInt($(`#id_qty_${bookId}`).val());
+        var minusDisabled = currentValue < 2;
+        var plusDisabled = currentValue > 49;
+        $(`#increment-qty_${bookId}`).prop(`disabled`, plusDisabled);
+        $(`#decrement-qty_${bookId}`).prop(`disabled`, minusDisabled);
+    }
+
+    // Ensure proper enabling/disabling of all inputs on page load
+    var allQtySelect = $('.qty_select');
+    for(var i = 0; i < allQtySelect.length; i++){
+        var bookId = $(allQtySelect[i]).data('book_id');
+        handleEnableDisable(bookId);
+    }
+
+    // Check enable/disable every time the input is changed
+    $('.qty_select').change(function() {
+        var bookId = $(this).data('book_id');
+        handleEnableDisable(bookId);
+    })
+
+    // Increment Order Quantity
+    $('.increment-qty').click(function(e){
+        e.preventDefault();
+        var closestInput = $(this).closest('.qty-group').find('.qty_select')[0]
+        var currentValue = parseInt($(closestInput).val());
+        $(closestInput).val(currentValue + 1);
+        var bookId = $(this).data('book_id');
+        handleEnableDisable(bookId);
+    });
+    // Decrement order Quantity
+    $('.decrement-qty').click(function(e){
+        e.preventDefault();
+        var closestInput = $(this).closest('.qty-group').find('.qty_select')[0]
+        var currentValue = parseInt($(closestInput).val());
+        $(closestInput).val(currentValue - 1);
+        var bookId = $(this).data('book_id');
+        handleEnableDisable(bookId);
+    });
+</script>

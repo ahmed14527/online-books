@@ -1,0 +1,88 @@
+
+/* Table of content
+----------------------------
+1. CART STYLE
+    1.1 Cart
+        1.1.1 general
+
+    
+/* ----------------------------cart------ */
+/* general */
+
+.book-checkout-card{
+    width: 130px;
+    margin: auto;
+    border-radius: 2px;
+}
+
+
+.order{
+    box-shadow: 0px 3px 15px 1px rgba(2, 33, 56, 0.2);
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.checkout-counter{
+    background-color:rgba(2, 33, 56, 0.1);
+    color: #022138;
+    border-radius: 5px;
+}
+
+.counter-hr{
+    color: #022138;
+}
+
+.btn-bookstore{
+    border: 2px solid #022138;
+}
+.btn-bookstore:hover{
+    background-color: #022138;
+    color: #fffaf6;
+}
+
+.btn-checkout,
+.btn-checkout:hover{
+    background-color: #f02c2c;
+    color: #fffaf6;
+}
+
+.shopping_cart .qty_select{
+    width: 50px;
+
+    border-radius: 0;
+    color: #022138;
+    border-color: rgba(2, 33, 56, 0.5);
+}
+
+.shopping_cart .form-control,
+.shopping_cart .qty-group{
+    height: 40px;
+}
+
+.update-book-qty{
+    color: #17a2b8;
+    text-decoration: none;
+}
+
+.update-book-qty:hover{
+    color: #022138;
+    cursor: pointer;
+}
+
+.like-book:hover,
+.remove-book:hover{
+    color: #f02c2c;
+    background-color: #fffaf6;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 768px)  {
+    .order{
+        box-shadow:none;
+        background-color: transparent;
+    }
+    .book-information{
+        display: flex;
+        justify-content: center;
+    }
+}

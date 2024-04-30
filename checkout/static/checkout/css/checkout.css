@@ -1,0 +1,129 @@
+
+
+/* Table of content
+----------------------------
+1. CHECKOUT STYLE
+    1.1 Index
+        1.1.1 general
+
+
+/* ----------------------------Checkout--- */
+/* general */
+
+/*--Stripe--*/
+.StripeElement{
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #fff;
+    margin:auto;
+    width: 95%;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+  }
+  
+  .StripeElement--focus{
+      box-shadow: 0px 3px 15px 1px rgba(2, 33, 56, 0.5);
+  }
+  
+  .StripeElement--webkit-autofill {
+      background-color: #fffaf6 !important;
+  }
+  
+  .form{
+      background-color:rgba(2, 33, 56, 0.1);
+      border-radius: 5px;
+  }
+  
+  .form .form-control{
+      border-color: transparent;
+  }
+  
+  .stretch .form-control{
+      width: 90%;
+  }
+  
+  .form-check a{
+      background-color: transparent;
+  }
+  
+  .form-check a:hover{
+      background-color: transparent;
+      color: #f02c2c !important;
+  }
+  
+  .form-check-width{
+      width: 40%;
+      margin: auto;
+  }
+  
+  select,
+  select option{
+      color: #022138;
+  }
+  
+  select:invalid,
+  select option[value=""]{
+      color:rgba(2, 33, 56, 0.7) !important ;
+  }
+  
+  /* -------------------------Loading Overlay------ */
+  #loader {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color:rgba(2, 33, 56, 0.7);
+      z-index: 999999;
+  }
+  
+  .load-spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      height: 100%;
+      color: #fffaf6;
+  }
+  
+  /* --------------------Purchase-- */
+  
+  .order-details{
+      border: 1px solid #022138;
+      padding: 20px;
+  }
+  .order-scroll{
+      width: 100%;
+      overflow: scroll;
+  }
+  
+  .order-book-box{
+      width: 100px;
+  }
+  
+  .book-checkout-card{
+      position: relative;
+      width: 80px;
+      margin: auto;
+      box-shadow: 0px 3px 15px 1px rgba(2, 33, 56, 0.1);
+  }
+  
+  .book-checkout-card:hover{
+      box-shadow: 0px 3px 15px 1px rgba(2, 33, 56, 0.3);
+  }
+  
+  .order-qty{
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+      color: #fff;
+      border-radius: 5px;
+      backdrop-filter: blur(15px);
+  }
+  

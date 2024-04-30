@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container page">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+              <h2 class="text-uppercase">books</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+              <p class=" mute mt-3">
+                  {% if search_term or genre or special or sorting is true %}
+                  <span>
+                    <a class="books-link" href="{% url 'books:books' %}">Books Home</a> |
+                  </span>
+                  {% endif %}
+                  {% if books|length < 1 %}
+                  <span>No Books found for <strong>"{{search_term}}"</strong></span>
+                  {% elif books|length == 1 %}
+                  {{ books|length }} Book{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}
+                  {% else %}
+                  {{ books|length }} Books{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}
+                  {% endif%}
+              </p>
+            </div>
+          </div>
+        <div class="container all-books my-5">
+            <div class="row">
+                {% for book in books %}
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="book my-3 mx-auto">
+                        <div class="container">
+                            <form action="{% url 'wish' slug=book.slug %}" method="POST">
+                                {% csrf_token %}
+                                <button class="like-book btn ms-5 book-like" id="like_{{ book.slug }}"><i class="fa-regular fa-heart"></i></button>
+                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                            </form>
+                            <a href="{% url 'books:book-details' slug=book.slug %}">
+                                <div class="container book-card py-4 px-3">
+                                    {% if book.image %}
+                                    <img src="{{ book.image.url }}" alt="book image" width="200" height="280">
+                                    {% else %}
+                                    <a href="{% url 'books:book-details' slug=book.slug %}">
+                                        <img class="img-fluid" 
+                                            src="{{ MEDIA_URL }}no-image-man.jpg" 
+                                            width="200" height="280" alt="no image available">
+                                    </a>
+                                    {% endif %}
+                                    {% if book.special.first %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="book-tag">
+                                                <div class="special mx-auto">
+                                                {{ book.special.first }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </div>
+                        <div class="container">
+                           <div class="cotainer book-info">
+                                <a class="text-decoration-none" href="{% url 'books:book-details' slug=book.slug %}#about-author">
+                                    <small class="author-link">{{ book.author }}</small>
+                                </a>
+                                <a class="text-decoration-none" href="{% url 'books:book-details' slug=book.slug %}">
+                                    <p class="title-link"><strong>{{ book.title }}</strong></p>
+                                </a>
+                                <div>
+                                    <p><strong>{{ book.price }}€</strong></p>
+                                </div>
+                                {% if book.genre %}
+                                <div>
+                                    <a class="text-decoration-none" href="#">
+                                        <small class="mute genre-link"><i class="fa-solid fa-tag"></i> {{ book.genre }}</small>
+                                    </a>
+                                </div>
+                                {% endif %}
+                                {% if book.rating %}
+                                <div>
+                                    <small class="mute"><i class="fa-solid fa-star"></i> {{ book.rating }} / 5</small>
+                                </div>
+                                {% else %}
+                                    <small> No Rating </small>
+                                {% endif %}
+                                {% if request.user.is_superuser%}
+                                <div class="d-flex justify-content-end">
+                                    <a href="{% url 'books:edit_book' slug=book.slug %}" class="text-primary text-decoration-none">edit</a><span class="text-muted">|</span>
+                                    <a class="text-danger text-decoration-none" href="{% url 'books:delete_book' slug=book.slug %}" role="button">delete</a>
+                                </div>
+                                {% endif %}
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <!--code idea from code institute WT project:boutique_ado-->
+                {% if forloop.counter|divisibleby:1 %}
+                <div class="col-12 d-sm-none">
+                    <hr class="book-hr">
+                </div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:2 %}
+                <div class="col-12 d-none d-sm-block d-md-block d-lg-none">
+                    <hr class="book-hr">
+                </div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:3 %}
+                <div class="col-12 d-none d-lg-block d-xl-none">
+                    <hr class="book-hr">
+                </div>
+                {% endif %}
+                {% if forloop.counter|divisibleby:4 %}
+                <div class="col-12 d-none d-xl-block">
+                    <hr class="book-hr">
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <!--Books Pagination-->
+        {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <div class="row">
+              <div class="col-12">
+                <div class="pagination justify-content-center mb-5">
+                  <div class="page-prev">
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward me-1"></i></a>
+                    <a href="?page=1" class="page-step-prev">First </a>
+                    {% endif %}
+                  </div>
+                  <div class="ms-2 me-2">
+                    <small class="current-page">
+                      Page{{ page_obj.number}} of {{ page_obj.paginator.num_pages }}
+                    </small>
+                  </div>
+                  <div class="page-next">
+                    {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="page-step-next">Last</a>
+                    <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward ms-1"></i></a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+        {% endif %}
+    </div>
+{% endblock %}

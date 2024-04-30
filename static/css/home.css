@@ -1,0 +1,214 @@
+
+
+/* Table of content
+----------------------------
+1. HOME STYLE
+    1.1 Index
+        1.1.1 general
+        1.1.2 carousel
+    2.1 About
+        2.1.1 general
+    3.1 Team
+        3.1.1 general
+    4.1 Contact
+        4.1.1 general
+
+
+/* **********
+ HOME STYLE
+************ */
+
+/* --------------------------Index----- */
+
+/* general */
+
+/* carousel */
+
+.hero-1{
+    height: 70vh;
+    background-image:linear-gradient(rgba(89, 89, 89, 0.3), rgba(0, 0, 0, 0.3)), url(https://res.cloudinary.com/dzdyzl4r5/image/upload/v1672956275/alphabets-c_yeal8f.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero-2{
+    height: 70vh;
+    background-image:linear-gradient(rgba(89, 89, 89, 0.3), rgba(0, 0, 0, 0.3)), url(https://res.cloudinary.com/dzdyzl4r5/image/upload/v1672956115/hero-1-c_sbvydv.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+.hero-3{
+    height: 70vh;
+    background-image:linear-gradient(rgba(89, 89, 89, 0.3), rgba(0, 0, 0, 0.3)), url(https://res.cloudinary.com/dzdyzl4r5/image/upload/v1672956275/hero-3-c_pxjhmt.jpg);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.page-call{
+    backdrop-filter: blur(15px);
+    width: 40%;
+    height: 50%;
+    position: absolute;
+    bottom: 30%;
+    right: 10%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color:#fffaf6;
+    font-size: 1.4rem;
+    border-radius: 5px;
+}
+
+.page-call .btn{
+    width: 35%;
+}
+
+.carousel-control-prev,
+.carousel-control-next{
+    background-color:rgba(2, 33, 56, 0.5);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    top: 45%;
+}
+
+.carousel-control-prev{
+    left: 2%;
+}
+
+.carousel-control-next{
+    right: 2%;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover{
+    background-color: #022138;
+}
+
+
+/* ------------------------------About------ */
+
+/* general */
+
+.about-img{
+    background-image: url(https://res.cloudinary.com/dzdyzl4r5/image/upload/v1672956275/book-lovers-c-r_eq8ywk.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fffaf6;
+    height: 35vh;
+}
+
+
+.about-text{
+    width: 90%;
+    height: fit-content;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 2px 3px 5px 1px rgba(2, 33, 56, 0.3);
+}
+
+.about-text .nav-link{
+    color: rgba(240, 44, 44, 0.8);
+}
+
+.about-text .nav-link:hover{
+    color: #f02c2c;
+}
+
+/* ---------------------------------Team------- */
+
+/* general */
+
+.team-page{
+    background-color: #022138;
+    color: #fffaf6;
+    height: 20vh;
+}
+
+.team-info{
+    color: #022138;
+    background-color: #fff;
+}
+
+
+.team-info i{
+    font-size: 1.3rem;
+    color: rgba(240, 44, 44, 0.8);
+}
+
+.team-info i:hover{
+    color: #f02c2c;
+}
+
+/* ---------------------------Contact------ */
+/* general */
+
+.contact{
+    box-shadow: 2px 3px 5px 1px rgba(2, 33, 56, 0.3);
+}
+
+.contact-info{
+    color: #fffaf6;
+}
+
+.contact-info-box{
+    background-color:#022138;
+}
+
+.contact-form-box{
+    background-color: #fff;
+}
+
+.contact-form{
+    color: #022138;
+    width: 80%;
+    margin: auto;
+}
+
+.fa-location-dot,
+.fa-phone,
+.fa-envelope{
+    color: #f02c2c;
+}
+
+
+@media screen and (max-width: 992px)  {
+    .page-call{
+        backdrop-filter: none;
+        width: 64%;
+        right: 17%;
+    }
+    .page-call .btn{
+        width: 65%;
+    }
+    
+}
+
+@media screen and (orientation: landscape){
+    .page-call{
+        height: 50%;
+        right: 15%;
+        top: 10%;
+        font-size: 1.2rem;
+    }
+}
+
+@media screen and (max-width: 768px)  {
+    .contact{
+        box-shadow: 2px 3px 5px 1px rgba(2, 33, 56, 0.1);
+    }
+    
+    .contact-form{
+        width: 100%;
+    }
+
+    .about-text{
+        width: 100%;
+    }
+}

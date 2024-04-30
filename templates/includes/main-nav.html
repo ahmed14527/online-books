@@ -1,0 +1,59 @@
+
+<!--All Books-->
+<li class="nav-item dropdown">
+    <a
+      class="nav-link ps-4 dropdown-toggle"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      href="#"
+      >All Books</a
+    >
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?sort=price&direction=asc">By Price</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?sort=rating&direction=desc">By Rating</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?sort=genre&direction=asc">By Genre</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:books' %}">All Books</a></li>
+    </ul>
+  </li>
+    <!--/.All Products-->
+   <!--Genres-->
+  <li class="nav-item dropdown">
+    <a
+      class="nav-link ps-4 dropdown-toggle"
+      role="button"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+      href="#"
+      >Genres</a
+    >
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?genre=Education">Education</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?genre=Fantasy">Fantasy</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?genre=History">History</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?genre=Kids">Kids</a></li>
+      <li><a class="dropdown-item" href="{% url 'books:search-result' %}?genre=Sports">Sports</a></li>
+    </ul>
+  </li>
+  <!--/.Genres-->
+    <!--Special-Offers-->
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link ps-4 dropdown-toggle"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        href="#"
+        >Specials</a
+      >
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{% url 'books:search-result' %}?special=Bestseller">Bestseller</a></li>
+        <li><a class="dropdown-item" href="{% url 'books:search-result' %}?special=New%20Arrivals">New Arrivals</a></li>
+        <li><a class="dropdown-item" href="{% url 'books:search-result' %}?special=SALE">SALE</a></li>
+        <li><a class="dropdown-item" href="{% url 'books:search-result' %}?special=Recommendations">Recommendations</a></li>
+        <li><a class="dropdown-item" href="{% url 'books:search-result' %}?special=Special">All Specials</a></li>
+      </ul>
+    </li>
+    <!--/.Special-Offers-->
+    
+  

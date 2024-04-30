@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bag_tools %}
+{% block content %}
+<div class="container page shopping_cart">
+    <h2 class="text-center text-uppercase">Shopping cart</h2>
+    <div class="row row-cols-2 justify-content-between my-5">
+        <div class="col-12 col-lg-8 checkout-items">
+            {% if shopping_basket %}
+            {% for item in shopping_basket %}
+            <div class="container order my-2">
+                <div class="row">
+                    <div class="col-12 col-md-3">
+                        <div class="book-checkout-card py-3 px-3">
+                            {% if item.book.image %}
+                                <img src="{{ item.book.image.url }}" alt="book image" width="98" height="150">
+                            {% else %}
+                                <a href="#"><img class="img-fluid" src="{{ MEDIA_URL }}no-image-man.jpg" width="98" height="150" alt="no image available"></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 book-information">
+                        <div class="d-grid gap-2 mt-3 mb-2">
+                            <p><strong>{{ item.book.title }}</strong></p>
+                            <a class="text-decoration-none" href="{% url 'books:book-details' slug=item.slug %}#about-author">
+                                <small class="author-link">{{ item.book.author }}</small>
+                            </a>
+                            {% if item.book.genre %}
+                            <a class="text-decoration-none" href="#">
+                                <small class="mute genre-link"><i class="fa-solid fa-tag"></i> {{ item.book.genre }}</small>
+                            </a>
+                            {% endif %}
+                            <p>Price : {{ item.book.price }} €</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="d-grid gap-3 mt-3 mb-2 justify-content-center">
+                            <p class="text-center my-0 ms-5"><strong>{{ item.book.price | calc_subtotal:item.qty }} €</strong></p>
+                            <!-- Adjust book quantity in cart-->
+                            <form class="update-qty" action="{% url 'adjust_cart' slug=item.slug %}" method="POST">
+                                {% csrf_token %}
+                                <div class="d-grid justify-content-center">
+                                    <div class="qty-group d-flex">
+                                        <div class="input-group-prepend">
+                                            <button class="decrement-qty btn"
+                                            data-book_id="{{ item.book.id }}" id="decrement-qty_{{ item.book.id }}">
+                                            <span class="icon">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </span>
+                                            </button>
+                                        </div>
+                                        <input type="number" class="form-control qty_select text-center"
+                                            name="quantity" value="{{ item.qty }}" min="1" max="50"
+                                            data-book_id="{{ item.book.id }}" id="id_qty_{{ item.book.id }}">
+                                            <div class="input-group-postpend">
+                                                <button class="increment-qty btn"
+                                                data-book_id="{{ item.book.id }}" id="increment-qty_{{ item.book.id }}">
+                                                <span class="icon">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </span>
+                                                </button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <a class="update-book-qty text-center ms-3 pt-1"><small><i class="fa-solid fa-arrows-rotate"></i> Update</small></a>
+                            <a class="remove-book btn ms-5" id="remove_{{ item.slug }}"><i class="fa-solid fa-trash"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="d-grid my-auto">
+                <p class="fs-2 text-center">Your Cart is empty.</p>
+                <div class="d-flex justify-content-center mt-4">
+                    <a class="btn btn-bookstore" href="{% url 'books:books' %}"><i class="fa-solid fa-arrow-left"></i> Back to Bookstore</a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 mt-3">
+            <div class="text-center checkout-counter">
+                <h3 class="py-3 text-uppercase">Checkout Counter</h3>
+                <hr class="counter-hr">
+                <div class="d-grid">
+                    <div class="d-flex justify-content-between mx-4">
+                        <p>Total</p>
+                        {% if total %}
+                        <p class="text-center"><strong>{{total|floatformat:2}} €</strong></p>
+                        {% else %}
+                        <p class="text-center"><strong>0.00 €</strong></p>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between mx-4">
+                        <p>Tax (9%)</p>
+                        {% if tax_deduction %}
+                        <p class="text-center"><strong>{{tax_deduction|floatformat:2}} €</strong></p>
+                        {% else %}
+                        <p class="text-center"><strong>0.00 €</strong></p>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between mx-4">
+                        <p>Grand Total</p>
+                        {% if grand_total %}
+                        <p class="text-center"><strong>{{grand_total|floatformat:2}} €</strong></p>
+                        {% else %}
+                        <p class="text-center"><strong>0.00 €</strong></p>
+                        {% endif %}
+                    </div>
+                    <hr class="counter-hr">
+                    <div class=" gap-2 d-flex justify-content-center my-3">
+                        <a class="btn btn-bookstore" href="{% url 'books:books' %}">Back to Bookstore</a>
+                        <a class="btn btn-checkout" href="{% url 'checkout' %}">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block postloadjs %}
+    {{block.super}}
+    {% include 'books/includes/quantity_select_script.html' %}
+    <script>
+        // Update quantity on click
+      $('.update-book-qty').click(function(e) {
+          // https://api.jquery.com/prev/
+          var form = $(this).prev('.update-qty');
+          form.submit();
+      })
+
+      // Remove book on click and reload page
+      $('.remove-book').click(function(e) {
+          var csrfToken = "{{ csrf_token }}";
+          var bookId = $(this).attr('id').split('remove_')[1];
+          var url = `/cart/remove/${bookId}/`;
+          var data = {'csrfmiddlewaretoken': csrfToken};
+
+          $.post(url, data)
+          .done(() => {
+              location.reload();
+          });
+      })
+    </script>
+{% endblock %}
