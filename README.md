@@ -324,15 +324,7 @@ To start this project, It is recommended to use the [template](https://github.co
                 ```
 
 
-## Demonstrated Data and Account
 
-| Email                     | username           | Password         | Description
-|---------------------------|--------------------|------------------|-------------------------------
-| gosip@blog.com            | flo-admin          | myGosip!!        | Admin account
-
-
-
----
 
 # Technologies
 
